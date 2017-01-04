@@ -56,7 +56,6 @@ var tem = function(todo) {
 
 //可编辑
 var bindEdit = function() {
-
 	todoCells.addEventListener('click', function(event) {
 		var self = event.target
 		var todoDiv = self.parentNode
@@ -69,13 +68,30 @@ var bindEdit = function() {
 			canEdit.focus()
 			//失焦后不可编辑,保存 todo
 			canEdit.onblur = function() {
-				//console.log('失焦');
+				//console.log('失焦')
+				//console.log('canEdit', canEdit)
 				canEdit.setAttribute('contenteditable', 'false')
+				var index = indexOfElement(todoDiv)
+				todoList[index].task = canEdit.firstChild.nodeValue
+				//console.log('canEdit.value', canEdit.firstChild.nodeValue)
+				saveTodo()
 			}
 		}
 	})
 }
 
+//回车失焦
+var bindKey = function() {
+	todoCells.addEventListener('keydown', function(event) {
+		var target = event.target
+		if(event.keyCode === 13) {
+			//失焦
+			target.blur()
+			//阻止默认行为的发生
+			event.preventDefault()
+		}
+	})
+}
 
 //完成与删除
 var bindDone = function() {
@@ -83,8 +99,8 @@ var bindDone = function() {
 	todoCells.addEventListener('click', function(event) {
 		var target = event.target
 		var todoDiv = target.parentElement
-		console.log('target', target);
-		console.log('todoDiv', todoDiv);
+		//console.log('target', target);
+		//console.log('todoDiv', todoDiv);
 		if(target.classList.contains('todo-done')) {
 			toggle(todoDiv, 'done')
 		}else if(target.classList.contains('todo-delete')){
@@ -134,18 +150,12 @@ var loadTodo = function() {
 	var s = localStorage.todoList
 	return JSON.parse(s)
 }
-/*
 
-todoList = loadTodo()
-for (var i = 0; i < todoList.length; i++) {
-	var todo = todoList[i]
-}
-insertTodo(todo)
-*/
 var _main = function() {
 	addPlan()
 	bindEdit()
 	bindDone()
+	bindKey()
 
 }
 _main()
