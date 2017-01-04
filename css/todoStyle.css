@@ -40,7 +40,7 @@ h1 {
     padding-top: 10px;
 }
 
-time, .canEdit {
+#time, .canEdit {
     font-size: 15px;
     font-family: SimHei,Aril,cursive;
     color: #696969;
