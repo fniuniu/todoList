@@ -29,7 +29,7 @@ var addPlan = function() {
 //插入html
 var insertTodo = function(todo) {
 	var t = tem(todo)
-	todoCells.insertAdjacentHTML('beforeEnd', t)
+	todoCells.insertAdjacentHTML('beforeend', t)
 }
 
 //时间
